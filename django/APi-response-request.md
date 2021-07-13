@@ -21,3 +21,5 @@ class ExView(APIView):
     key = request.GET['key']  # request.GET.get('key',default=None)를 사용하면 key값이 없을때 null로 받아온다
     return Response(status=200)
 ```
+
+참고 : https://wave1994.tistory.com/52
