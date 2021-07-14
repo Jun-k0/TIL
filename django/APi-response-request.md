@@ -1,8 +1,15 @@
 ## Request
-request.body value값을 쓰는 법
+### request.body value값을 쓰는 법
 ```python
-data = json.loads(request.body) # JSONParser().parse(request)를 써도 무관?
+data = json.loads(request.body) # JSONParser().parse(request)를 써도 무관
 name = data['name']
+```
+### QueryParameter
+```python
+class ExView(APIView):
+  def get(self, request):
+    key = request.GET['key']  # request.GET.get('key',default=None)를 사용하면 key값이 없을때 null로 받아온다
+    return Response(status=200)
 ```
 ## Response
 serializer.data로 변환하지 않고   
@@ -10,16 +17,9 @@ serializer.data로 변환하지 않고
 ```python
 return JsonResponse({'key':list(result_queryset)}, status=200)
 ```
-* queryset을 합칠 땐 union 사용
+* queryset을 합칠 땐 union 사용 ( **다른 모델이면 불가능** ) 
 ```python
 return = qs1.union(qs2) # | 사용 시 오류 여부
-```
-## QueryString
-```python
-class ExView(APIView):
-  def get(self, request):
-    key = request.GET['key']  # request.GET.get('key',default=None)를 사용하면 key값이 없을때 null로 받아온다
-    return Response(status=200)
 ```
 
 참고 : https://wave1994.tistory.com/52
