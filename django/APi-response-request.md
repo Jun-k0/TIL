@@ -11,6 +11,10 @@ class ExView(APIView):
     key = request.GET['key']  # request.GET.get('key',default=None)를 사용하면 key값이 없을때 null로 받아온다
     return Response(status=200)
 ```
+* 쿼리를 보낼때 list 형식으로 가능
+```
+/url/?key=[1,3,4]
+```
 ## Response
 serializer.data로 변환하지 않고   
 직접 Json형식으로 만들어 보내줄 수 있다 (list 형식?)
