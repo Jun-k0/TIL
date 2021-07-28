@@ -25,5 +25,9 @@ return JsonResponse({'key':list(result_queryset)}, status=200)
 ```python
 return = qs1.union(qs2) # | 사용 시 오류 여부
 ```
-
+* queryset.update()를 통해 여러 데이터를 수정 가능
+```python
+banner = Banner.objects.filter(name=event.brand.name)
+banner.update(count=banner[0].count+1, )
+```
 참고 : https://wave1994.tistory.com/52
