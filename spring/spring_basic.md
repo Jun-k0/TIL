@@ -56,8 +56,11 @@ public class HelloController {
 
 ## 테스트
 * ```@Test```를 사용하여 테스트 클래스 생성
+* ```@SpringBootTest``` : 스프링 컨테이너 테스트 함께 실행(db 필요할때?)
 * ```@AfterEach``` : 테스트 간 영향이 없도록, 한 테스트가 끝날때 마다 실행 (리포지토리 비우기)
+* But, ```@Transactional``` : 테스트할때 이 어노테이션이 있으면, 테스트 후 항상 롤백해줌 (테스트 간 영향 X)
 * ```@BeforeEach``` : 테스트 간 영향이 없도록, 한 테스트가 시작하기 전에 실행 (새 리포지토리 생성, 의존성 주입)
+* But, 필드 주입으로 그냥 DI 시키는게 편함
 
 ## 스프링 빈과 의존관계
 ```@Autowired```를 생성자에 쓰면 스프링이 연관된 객체를 스프링 컨테이너(스프링 빈으로 등록돼있음)에서 찾아서 넣어준다. 이렇게   
@@ -84,7 +87,39 @@ public class SpringConfig { // config 클래스를 생성해서 직접 빈으로
 ## 스프링 DB 접근
 
 ### JPA
+* 도메인에  ```@Entity```매핑, pk 필드에  ```@id```,  ```@@GeneratedValue(strategy = GenerationType.IDENTITY)``` 매핑
 
+```java
+public class JpaMemberRepository implements MemberRepository {
+ private final EntityManager em; // 엔티티 관련 JPA 관리자 역할
+ public JpaMemberRepository(EntityManager em) {
+  this.em = em;
+ }
+ public Member save(Member member) {
+  em.persist(member); // 저장하는 JPA 쿼리문
+  return member;
+ }
+ public Optional<Member> findById(Long id) {
+  Member member = em.find(Member.class, id); // 조회하는 JPA 쿼리문
+  return Optional.ofNullable(member); // null일 경우 빈 optional 반환
+ }
+ public List<Member> findAll() { // 리스트로 받아오려면 쿼리문 작성 해야함. 스프링 데이터 JPA를 쓰면 간편하게 쿼리 안쓰고 가능
+  return em.createQuery("select m from Member m", Member.class)
+  .getResultList();
+ }
+ public Optional<Member> findByName(String name) {
+  List<Member> result = em.createQuery("select m from Member m where 
+  m.name = :name", Member.class)
+  .setParameter("name", name)
+  .getResultList();
+  return result.stream().findAny();
+ }
+}
+```
+* JPA를 통한 모든 db 데이터의 변경은 트랜잭션 안에서 실행해야 한다(```@Transactional``` 매핑 필요).
+
+### 스프링 데이터 JPA
+* findByName() 같이 메서드 이름으로 쿼리 안쓰고 조회 가능
 ## 유용한 문법들
-```Optional<T>``` - null    
-```.stream()```, ```.filter()```, ```.findany()```
+```Optional<T>``` - null 예외처리 편해짐     
+```.stream()```, ```.filter()```, ```.findany()``` - Optional 객체들을 필터링해서 하나 찾으면 반환
