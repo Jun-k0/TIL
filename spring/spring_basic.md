@@ -60,10 +60,30 @@ public class HelloController {
 * ```@BeforeEach``` : 테스트 간 영향이 없도록, 한 테스트가 시작하기 전에 실행 (새 리포지토리 생성, 의존성 주입)
 
 ## 스프링 빈과 의존관계
-ㅇㅁㄴㅇ
-### 컴포넌트 스캔 방법
+```@Autowired```를 생성자에 쓰면 스프링이 연관된 객체를 스프링 컨테이너(스프링 빈으로 등록돼있음)에서 찾아서 넣어준다. 이렇게   
+객체 의존관계를 외부에서 넣어주는 것을 DI(의존성 주입)이라 함
+ * ```@Autowired```를 통한 DI는 스프링이 관리하는 (스프링 빈으로 등록된) 객체에서만 동작함.
+ * DI에는 필드 주입(간편하지만 로직 수정 힘듬), setter 주입, 생성자 주입이 있는데 생성자 주입 추천
+### 스프링 빈 등록 방법
+* 컴포넌트 스캔 방법 - 정형화된 방식일때    
+    ```@Controller```, ```@Service```, ```@Repository```등의 어노테이션을 붙여 자동 등록하게함
 
-### 직접 스프링 빈에 등록하는 방법
+* 직접 스프링 빈에 등록하는 방법 - 상황에 따라 구현체가 바뀔때 
+```java
+@Configuration // 스프링 시작할때 먼저 실행
+public class SpringConfig { // config 클래스를 생성해서 직접 빈으로 등록해줌.
+ @Bean
+ public MemberService memberService() {
+  return new MemberService(memberRepository());
+ }
+ @Bean
+ public MemberRepository memberRepository() {
+  return new MemoryMemberRepository();
+ }
+```
+## 스프링 DB 접근
+
+### JPA
 
 ## 유용한 문법들
 ```Optional<T>``` - null    
