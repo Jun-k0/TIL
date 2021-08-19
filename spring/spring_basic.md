@@ -120,6 +120,29 @@ public class JpaMemberRepository implements MemberRepository {
 
 ### 스프링 데이터 JPA
 * findByName() 같이 메서드 이름으로 쿼리 안쓰고 조회 가능
+
+## AOP
+* 모든 메소드에서 공통사항을 측정하고 싶을때 - 스프링 빈에 AOP 등록 후 원하는 로직에만 적용 가능
+* 시간 측정 AOP
+```java
+@Component // 컴포넌트 스캔 방식 OR 스프링 빈에 직접 등록해도됨
+@Aspect // AOP
+public class TimeTraceAop {
+ @Around("execution(* hello.hellospring..*(..))") // 패키지, 원하는 로직 설정 가능
+ public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
+ long start = System.currentTimeMillis();
+ System.out.println("START: " + joinPoint.toString());
+ try {
+  return joinPoint.proceed();
+ } finally {
+  long finish = System.currentTimeMillis();
+  long timeMs = finish - start;
+  System.out.println("END: " + joinPoint.toString()+ " " + timeMs +
+ "ms");
+ }
+} 
+```
+* AOP를 적용하면 Proxy가 주입되어 호출됨 *
 ## 유용한 문법들
 ```Optional<T>``` - null 예외처리 편해짐     
 ```.stream()```, ```.filter()```, ```.findany()``` - Optional 객체들을 필터링해서 하나 찾으면 반환
