@@ -121,6 +121,15 @@ public class JpaMemberRepository implements MemberRepository {
 ### 스프링 데이터 JPA
 * findByName() 같이 메서드 이름으로 쿼리 안쓰고 조회 가능
 
+## JPA vs Hibernate vs Spring Data JPA
+
+* JPA는 Java Persistence API의 약자로 자바 어플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 **인터페이스**이다.
+* 단순히 명세이기 때문에 구현이 없음 (persist, merge, remove, find)
+* Hibernate는 JPA라는 명세의 구현체이다. interface와 interface를 구현한 class와 같은 관계이다.
+* 그러므로 JPA를 사용하기 위해 반드시 hibernate를 사용할 필요는 없음
+* Spring Data JPA는 JPA를 쓰기 편하게 만들어놓은 모듈이다. JPA를 한단계 더 추상화 시킨 Repository라는 인터페이스를 제공한다.
+* Repository 인터페이스에 맞는 규칙대로 메소드를 입력하면, Spring이 알아서 해당 메소드에 해당하는 쿼리를 날리는 구현체를 만들어서 Bean에 등록해준다.
+
 ## AOP
 * 모든 메소드에서 공통사항을 측정하고 싶을때 - 스프링 빈에 AOP 등록 후 원하는 로직에만 적용 가능
 * 시간 측정 AOP
