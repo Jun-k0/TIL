@@ -25,3 +25,5 @@ logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
 ```
+# Reference
+김영한님의 실전! 스프링 부트와 JPA 활용
