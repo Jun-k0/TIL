@@ -19,3 +19,6 @@ Example.builder()
     .b(b)
     .build();
 ```
+
+# Reference
+스프링부트와 aws로 혼자 구현하는 웹서비스 - 저자 이동욱
