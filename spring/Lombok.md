@@ -1,4 +1,8 @@
 # Lombok
+Lombok(롬복)은 Java 라이브러리로 반복되는 getter, setter, toString 등의 메서드 작성 코드를 줄여주는 코드 다이어트 라이브러리이다.
+
+## Getter & Setter
+각 필드들의 get, set 메소드 자동 생성
 
 ## RequiredArgsConstructor
 * 선언된 모든 final 필드가 포함된 생성자를 생성해줌
@@ -19,6 +23,9 @@ Example.builder()
     .b(b)
     .build();
 ```
+
++ JPA에서 @GeneratedValue(strategy = GenerationType.IDENTITY)를 썼을시 batch 기능 비활성화 -> 데이터 한번에 모아서 보내기 불가능.
+https://semtax.tistory.com/94
 
 # Reference
 스프링부트와 aws로 혼자 구현하는 웹서비스 - 저자 이동욱
